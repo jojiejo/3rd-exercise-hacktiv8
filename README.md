@@ -1,5 +1,5 @@
 # 3rd-exercise-hacktiv8
-Create simple web app using Go with Bootstrap as CSS library
+Creating a simple web app using Go with Bootstrap as CSS library
 
 <b>Sign-In Page</b>
 ![Repo List](screenshots/sign-in.JPG)
