@@ -1,0 +1,130 @@
+{{define "signup"}}
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <title>Sign Up</title>
+
+        <!-- Bootstrap core CSS -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        
+        <style>
+            .container {
+                max-width: 600px;
+            }
+
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+
+            @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+                }
+            }
+        </style>
+    </head>
+
+    <body class="bg-light">
+        <div class="container">
+            <div class="py-5 text-center">
+                <img class="d-block mx-auto mb-4" src="https://getbootstrap.com/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+                <h2>Sign Up</h2>
+                <p class="lead">Below is an example of sign up form.</p>
+            </div>
+    
+            <div id="alert" class="alert alert-danger" role="alert" style="margin-top:-40px; display:none;"></div>
+
+            <div class="row">
+                <div class="col-md-12 order-md-1">
+                    <form id="sign-up-form" action="/signup" method="POST">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName">First name</label>
+                                <input type="text" class="form-control" name="firstName" placeholder="" maxlength="30" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName">Last name</label>
+                                <input type="text" class="form-control" name="lastName" placeholder="" maxlength="30" required>
+                            </div>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="email">Email <span class="text-muted">as username</span></label>
+                            <input type="email" class="form-control" name="email" maxlength="30"  required>
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" name="password" maxlength="30" required>
+                        </div>
+
+                        <div class="mb-3">
+                                <label for="password">Password Confirmation</label>
+                                <input type="password" class="form-control" name="passwordConfirmation" maxlength="30" required>
+                            </div>
+                        <br />
+                        <button class="btn btn-primary btn-lg btn-block" type="submit">Sign Up Now!</button>
+
+                        <center><p>Back to sign in page? <a href="/">Click here</a></p></center>
+                    </form>
+                </div>
+            </div>
+    
+            <footer class="my-5 pt-5 text-muted text-center text-small">
+                <p class="mb-1">&copy;2019 Hacktiv8 Exercise</p>
+            </footer>
+        </div>
+        <script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+        <script type="text/javascript">
+            $('document').ready(function(){
+                $("#sign-up-form").on("submit", function (e) {
+                    e.preventDefault();
+
+                    let $self = $(this);
+                    let payload = JSON.stringify({
+                        firstName: $('input[name="firstName"]').val(),
+                        lastName: $('input[name="lastName"]').val(),
+                        email: $('input[name="email"]').val(),
+                        password: $('input[name="password"]').val(),
+                    })
+
+                    $('#alert').removeClass();
+                    $('#alert').addClass('alert');
+                    $('#alert').css('display', 'block');
+                
+                    $.ajax({
+                        url: $self.attr("action"),
+                        type: $self.attr("method"),
+                        data: payload,
+                        contentType: 'application/json',
+                    }).then(function (res) {
+                        if(res.success) {
+                            setTimeout(() => { window.location='/' }, 5000);
+                            $('#alert').addClass('alert-success')
+                        }else{
+                            $('#alert').addClass('alert-danger');
+                        } 
+                        $('#alert').html(res.message);
+                    }).catch(function (a) {
+                        $('#alert').addClass('alert-danger');
+                        $('#alert').html(a);
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>
+
+
+{{end}}
